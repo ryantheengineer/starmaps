@@ -11,6 +11,7 @@ from matplotlib.collections import LineCollection
 
 from datetime import datetime
 import pytz
+from tzwhere import tzwhere
 
 from skyfield.api import Star, load, N, W, E, S, wgs84
 from skyfield.constants import GM_SUN_Pitjeva_2005_km3_s2 as GM_SUN
@@ -21,7 +22,13 @@ from skyfield.vectorlib import VectorFunction, VectorSum
 
 dt_str  = "10/21/2021 8:18:19"
 date_format  = "%m/%d/%Y %H:%M:%S"
-tzone = pytz.timezone('US/Eastern')
+lat = 41.0
+lon = -111.0
+
+tzwhere = tzwhere.tzwhere()
+timezone_str = tzwhere.tzNameAt(lat,lon)
+
+tzone = pytz.timezone(timezone_str)
 
 
 # Create datetime object in local timezone
@@ -31,8 +38,6 @@ dt_utc = local_dt.astimezone(pytz.UTC)
 
 ts = load.timescale()
 t = ts.utc(dt_utc.year,dt_utc.month,dt_utc.hour,dt_utc.minute,dt_utc.second)    # This is UTC time as written and must be converted to local time
-lat = 41.0
-lon = -111.0
 if lat >= 0.0:
     lat *= N
 else:
