@@ -17,8 +17,8 @@ from skyfield.positionlib import Astrometric, position_of_radec
 from skyfield.vectorlib import VectorFunction, VectorSum
 
 ts = load.timescale()
-t = ts.utc(2019,9,13,20)
-lat = 30.0
+t = ts.utc(2022,10,24,7)    # This is UTC time as written and must be converted to local time
+lat = 41.0
 lon = 111.0
 geographic = wgs84.latlon(latitude_degrees=lat*N, longitude_degrees=lon*W)
 observer = geographic.at(t)
@@ -61,7 +61,7 @@ edges_star2 = [star2 for star1, star2 in edges]
 # center = earth.at(t).observe(astrometric)
 projection = build_stereographic_projection(zenith)
 # projection = build_stereographic_projection(center)
-field_of_view_degrees = 45.0
+field_of_view_degrees = 180.0
 limiting_magnitude = 7.0
 
 # Now that we have constructed our projection, compute the x and y
@@ -76,7 +76,7 @@ stars['x'], stars['y'] = projection(star_positions)
 
 bright_stars = (stars.magnitude <= limiting_magnitude)
 magnitude = stars['magnitude'][bright_stars]
-marker_size = (0.5 + limiting_magnitude - magnitude) ** 2.0
+marker_size = (1.0 + limiting_magnitude - magnitude) ** 2.0
 
 # The constellation lines will each begin at the x,y of one star and end
 # at the x,y of another.  We have to "rollaxis" the resulting coordinate
@@ -88,11 +88,11 @@ lines_xy = np.rollaxis(np.array([xy1, xy2]), 1)
 
 # Time to build the figure!
 
-fig, ax = plt.subplots(figsize=[9, 9])
+fig, ax = plt.subplots(figsize=[15, 15], dpi=300)
 
 # Draw the constellation lines.
 
-ax.add_collection(LineCollection(lines_xy, colors='#00f2'))
+ax.add_collection(LineCollection(lines_xy, colors='b'))
 
 # Draw the stars.
 
@@ -103,6 +103,10 @@ ax.scatter(stars['x'][bright_stars], stars['y'][bright_stars],
 
 angle = np.pi - field_of_view_degrees / 360.0 * np.pi
 limit = np.sin(angle) / (1.0 - np.cos(angle))
+
+# Plot a circle with the field of view limit
+circle = plt.Circle((0,0), limit, color='k', fill=False)
+ax.add_patch(circle)
 
 ax.set_xlim(-limit, limit)
 ax.set_ylim(-limit, limit)
