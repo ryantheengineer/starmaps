@@ -72,7 +72,7 @@ def generate_all_sky(dt_str, lat, lon, filename):
     
     projection = build_stereographic_projection(zenith)
     field_of_view_degrees = 180.0
-    limiting_magnitude = 7.0
+    limiting_magnitude = 6.0
     
     # Now that we have constructed our projection, compute the x and y
     # coordinates that each star and the comet will have on the plot.
@@ -130,9 +130,9 @@ def generate_all_sky(dt_str, lat, lon, filename):
     
 
 if __name__ == "__main__":
-    dt_str  = "08/04/1991 21:18:19"
-    lat = 47.67
-    lon = -117.42
+    dt_str  = "08/26/2015 22:00:00"
+    lat = 40.0196
+    lon = -111.7495
     
     filename = "test.png"
     
