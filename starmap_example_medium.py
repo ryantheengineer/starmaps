@@ -103,8 +103,8 @@ xy1 = stars[['x', 'y']].loc[edges_star1].values
 xy2 = stars[['x', 'y']].loc[edges_star2].values
 lines_xy = np.rollaxis(np.array([xy1, xy2]), 1)
 
-# Draw the constellation lines.
-ax.add_collection(LineCollection(lines_xy, colors='white', linewidths=(0.5)))
+# # Draw the constellation lines.
+# ax.add_collection(LineCollection(lines_xy, colors='white', linewidths=(0.5)))
 
 ax.scatter(stars['x'][bright_stars], stars['y'][bright_stars],
            s=marker_size, color='white', marker='.', linewidths=0, 
@@ -120,4 +120,6 @@ ax.set_xlim(-1, 1)
 ax.set_ylim(-1, 1)
 plt.axis('off')
 
-plt.show()
+plt.savefig('starmap.svg')
+
+# plt.show()
